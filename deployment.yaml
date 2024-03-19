@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitlab
+  labels:
+    app: gitlab
+spec:
+  replicas: 1  # Set the number of desired replicas
+  selector:
+    matchLabels:
+      app: gitlab
+  template:
+    metadata:
+      labels:
+        app: gitlab
+    spec:
+      containers:
+      - name: gitlab
+        image: gitlab/gitlab-ee:<version>-ee.0
+        ports:
+        - containerPort: 443
+        - containerPort: 80
+        - containerPort: 22
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/gitlab
+        - name: logs-volume
+          mountPath: /var/log/gitlab
+        - name: data-volume
+          mountPath: /var/opt/gitlab
+        resources:
+          requests:
+            memory: "256Mi"
+          limits:
+            memory: "256Mi"  # Set the memory limits
+      volumes:
+      - name: config-volume
+        emptyDir: {}
+      - name: logs-volume
+        emptyDir: {}
+      - name: data-volume
+        emptyDir: {}
