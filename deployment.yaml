@@ -32,7 +32,7 @@ spec:
           requests:
             memory: "256Mi"
           limits:
-            memory: "256Mi"  # Set the memory limits
+            memory: "4Gi"  # Set the memory limits
       volumes:
       - name: config-volume
         emptyDir: {}
